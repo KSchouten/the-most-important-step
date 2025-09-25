@@ -24,7 +24,7 @@ jobs:
 
       # Render the quarto file
       - name: Render
-        run: quarto render index.qmd
+        run: quarto render .
 
       # Publish _site/ to GitHub pages
       - name: Publish to GitHub pages 🚀
