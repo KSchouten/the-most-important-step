@@ -1,6 +1,6 @@
 _site
 .quarto
 .git
-
+.DS_store
 /.quarto/
 **/*.quarto_ipynb

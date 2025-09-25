@@ -1,9 +1,114 @@
 ---
-title: "Post With Code"
-author: "Harlow Malloc"
+title: "Starting A Quarto Blog"
+author: "Kim Schouten"
 date: "2025-09-25"
-categories: [news, code, analysis]
+categories: [news, code, quarto]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+Over the last few days I got the notion in my head that I wanted to (again) have a personal website and since my visit to [posit::conf(2025)](https:://www.posit.co/conference), where I saw a lot of nifty Quarto stuff, I'd like to create the whole thing in Quarto.
+
+Given the fact that you read this, I have been succesful. That is great, because it means at the end of this post you should have all the ingredients to get something like this running yourself.
+
+# What do I want? 
+I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post as well as a custom domain so it's not just on github.io which will look a bit more professional.
+
+# What do I need?
+I will need a [GitHub](https://www.github.com) account, which you'll probably have. If you don't know Git or GitHub, you will need to get acquainted with that before continuing further. A couple of resources to help you on your way would be:
+
+ * [Git Handbook – GitHub Guides](https://guides.github.com/introduction/git-handbook/)
+ * [Try Git – Interactive Tutorial](https://try.github.io/)
+ * [Git Basics – Official Docs](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
+
+If you want to link to a custom domain instead of the default github.io one, you need to buy a domain name. There are many vendors out there. Prices can vary a bit by Top Level Domain (i.e., .com, .net, .etc) but are mostly quite reasonable. Note that you pay this amount per year, so it will be a recurring cost. I'd advise to first get things up and ready before you start spending money on cool domain names.
+
+Last, you need an IDE to program in. I am using [Positron](https://positron.posit.co/) for this project, but there are other options as well, such as VSCode, RStudio or even just a terminal and text editor.
+
+# Starting the project
+I generally followed the instructions on this helpful webpage: https://quarto.org/docs/websites/website-blog.html up until the themes section.
+
+Add a .gitignore file in the main folder and add at least this:
+```
+_site
+.quarto
+```
+This will prevent the rendered output on your machine while previewing to be mixed with the source code on GitHub.
+
+# Link with GitHub
+To make get this on GitHub I created a git repository in the project folder by opening the terminal tab in Positron and typing these three commands.
+```
+git init
+git add -A
+git commit -m "first commit"
+git branch -M main
+```
+This creates a new repository, adds all files to it and bundles them all in a first commit to the main branch. Be careful with `git add -A` as it may unintentionally add files you don't want to your repository. Because git is a versioning system, a file once put in the repo will always remain in the history. So take special care with passwords or other secret information!
+
+Then in GitHub I created a new repository over there as well. CHoose an appropriate name, keep it public and don't add any of the default files that it offers (no README, license or .gitignore, we can add those later), and there you go. Use these lines to connect your existing git repository on your device to the one you created on GitHub. Of course you'll have to replace the two placeholders with your own GitHub account name and repository name.
+```
+git remote add origin https://github.com/my_account_name/my_repository_name.git
+git push -u origin main
+```
+
+# Publish with GitHub Actions
+Next up is setting up GitHub Actions so we can automatically publish whenever we push a commit with a new version to the main branch. GitHub Actions is a powerful tool to automate workflows around your repository. You can check https://github.com/features/actions for more information.
+
+To get Actions working, you simply have to add a workflow to your repo. You can do so by creating a folder named `.github` to your main project folder and then create a `workflows` folder inside that new `.github` folder. Inside the `workflows` folder, create a file called `render.yml` which will contain the instructions for GitHub Actions to execute:
+
+```{.yml filename="render.yml"}
+name: render.yaml
+on:
+  push:
+    # This means this Action will trigger whenever you push a commit to the main branch
+    branches: main
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout this repo
+      - uses: actions/checkout@v4
+
+      # Install quarto
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      # Render the quarto website
+      - name: Render
+        run: quarto render .
+
+      # Publish the output of render in _site/ to GitHub pages
+      - name: Publish to GitHub pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          folder: _site
+```
+
+This will render your Quarto code into html and store that output in the gh-pages branch of your project.
+
+# Setup GitHub Pages
+Now that we have a gh-pages branch, we can setup GitHub Pages to use that branch to publish our website. Go to the Settings of your GitHub repository and then in the left menu go to Pages. Choose 'Deploy from a branch' and pick the 'gh-pages' branch in the dropdown below that. You might also see the option for a custom domain. Don't worry, we'll revisit this page to set that up later!
+
+# Does it work?
+Don't forget to stage all your changes, commit them to your repository and push them to GitHub. If you go to Actions in the top menu of your repository on GitHub you'll see a workflow running. You might also see a second one, called pages-build-deployment which is a standard GitHub workflow to publish whatever is in your gh-pages branch to your repository website. This website can be found at https://my_account_name.github.io/my_repository_name.
+
+So the setup has two steps: 
+
+1. Render your Quarto files into html files and storing them in the gh-pages branch
+2. Publishing whatever is in the gh-pages branch to your repository's website
+
+The first is our own GitHub Action, the second is a standard one that is enabled by enabling GitHub Pages in the settings.
+
+If you go to the url of your webpage, you should see something already! 
+
+<!--# To freeze or not to freeze?
+It turns out that in `posts/_metadata.yml` there is a setting called `freeze` which is set to `true`. This helps preventing rerenders of content that has not changed. This has all sorts of benefits, especially when you have R or Python code in your webpage that needs to compute: speed of rendering goes up and old code won't break when environments change or things are updated. It simply uses the results from last render.-->
+
+
+
+
+
+
+
+
+

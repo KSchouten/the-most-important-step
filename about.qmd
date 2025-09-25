@@ -17,3 +17,5 @@ about:
 > The most important step a man can take. It's not the first one, is it? <br>It's the next one. Always the next step, Dalinar. <br>&mdash; <cite>Oathbringer, Brandon Sanderson</cite>
 
 Welcome to my website! It records some of the next steps in my journey through life. Every person has their own journey and their own steps to take. Maybe some of what I write seems obvious to you because you are further down the road for that theme or topic, while other things may be helpful to you. There is a good chance that you disagree with me, which is totally fine. Variety in opinions, personal preferences, and taste is what makes humanity such a curious and endlessly fascinating bunch. 
+
+My interests are data science, data engineering, R and Python, reading books, sci-fi and fantasy stuff, personal development and leadership, and probably quite a few other things that I can't think of at the moment.

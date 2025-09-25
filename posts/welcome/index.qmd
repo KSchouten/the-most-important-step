@@ -1,12 +1,25 @@
 ---
-title: "Welcome To My Blog"
-author: "Tristan O'Malley"
-date: "2025-09-22"
+title: "Welcome To My Next First Step: This Blog"
+author: "Kim Schouten"
+date: "2025-09-25"
 categories: [news]
+image: "thunbnail.jpg"
 ---
 
-This is the first post in a Quarto blog. Welcome!
+This is the first post on my new website / blog. Welcome! 
 
-![](thumbnail.jpg)
+I am experimenting with using Quarto as a system to run this website. Years ago I also had a personal website which used wordpress but I wasn't too happy with it. It felt pretty complex and a bit bloated maybe? Because I love to code, I am taking a next step and start using Quarto to have once again a personal website.
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+That is also the theme that drives this attempt: the most important step is always the next one. Sometimes that means taking the first step, as with this website, sometimes it means getting back up again after a personal failure, and sometimes it means just powering through even if it gets tough or simply boring if that is what it takes. 
+
+I just finished Rythm of War by Brandon Sanderson so the Knights Radiants and their ideals are still fresh in my mind. I think they apply here as well.
+
+> Life before death. Strength before weakness. Journey before destination
+
+Life is both beautiful and painful. Still it is an amazing gift to be alive, to feel. Choosing life over death seems obvious, especially when things go well, but choosing to live and to live well can be hard when life comes at you hard in the moment. Focusing on your weakness can be a self-fulfilling prophesy, so choose to be strong and you likely will be. I see it as a form of courage, where in the face of your own struggles and weaknesses you are still brave enough to choose the right thing and thus your are strong. The last one is very reminiscent of the growth mindset for me which has been a personal goal for the last couple of years. Arriving (or not) at your destination is boolean, true or false, while the journey is a monotonically increasing number. Even worse, looking at destination you have basically failed up until the last step and you arrive at your destination. In contrast, focusing on the journey allows you to see every step as part of that lifelong journey. And even steps that, in hindsight, were maybe in the wrong direction have actually helped you learn and grow as a person so that now you do know which way to go. Just keep walking, every step counts.
+
+That is why starting this blog for me is a next step. Publishing my thoughts and experiments will probably give me some anxiety. What if people think... I am not capable enough, or not knowledgeable enough, or a bad communicator, or...
+But: strength before weakness and journey before destination. So yes, some things you will read here will be obvious (or wrong!) to you because your journey has already led you beyond that point. It may still be useful for others though and it is useful for me. Feel free to add your wisdom and knowledge in the comments so others can benefit from them.
+
+That is maybe the most important thing of a journey: you're not traveling alone!
+
