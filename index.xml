@@ -12,8 +12,8 @@
 <generator>quarto-1.8.24</generator>
 <lastBuildDate>Thu, 25 Sep 2025 00:00:00 GMT</lastBuildDate>
 <item>
-  <title>Post With Code</title>
-  <dc:creator>Harlow Malloc</dc:creator>
+  <title>Starting A Quarto Blog</title>
+  <dc:creator>Kim Schouten</dc:creator>
   <link>https://kimschouten.com/posts/post-with-code/</link>
   <description><![CDATA[ 
 
@@ -21,21 +21,281 @@
 
 
 
-<p>This is a post with executable code.</p>
+<p>Over the last few days I got the notion in my head that I wanted to (again) have a personal website and since my visit to <a href="https:://www.posit.co/conference">posit::conf(2025)</a>, where I saw a lot of nifty Quarto stuff, I’d like to create the whole thing in Quarto.</p>
+<p>Given the fact that you read this, I have been succesful. That is great, because it means at the end of this post you should have all the ingredients to get something like this running yourself.</p>
+<section id="what-do-i-want" class="level1">
+<h1>What do I want?</h1>
+<p>I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post as well as a custom domain so it’s not just on github.io which will look a bit more professional.</p>
+</section>
+<section id="what-do-i-need" class="level1">
+<h1>What do I need?</h1>
+<p>I will need a <a href="https://www.github.com">GitHub</a> account, which you’ll probably have. If you don’t know Git or GitHub, you will need to get acquainted with that before continuing further. A couple of resources to help you on your way would be:</p>
+<ul>
+<li><a href="https://guides.github.com/introduction/git-handbook/">Git Handbook – GitHub Guides</a></li>
+<li><a href="https://try.github.io/">Try Git – Interactive Tutorial</a></li>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Git-Basics">Git Basics – Official Docs</a></li>
+</ul>
+<p>If you want to link to a custom domain instead of the default github.io one, you need to buy a domain name. There are many vendors out there. Prices can vary a bit by Top Level Domain (i.e., .com, .net, .etc) but are mostly quite reasonable. Note that you pay this amount per year, so it will be a recurring cost. I’d advise to first get things up and ready before you start spending money on cool domain names.</p>
+<p>Last, you need an IDE to program in. I am using <a href="https://positron.posit.co/">Positron</a> for this project, but there are other options as well, such as VSCode, RStudio or even just a terminal and text editor.</p>
+</section>
+<section id="starting-the-project" class="level1">
+<h1>Starting the project</h1>
+<p>I generally followed the instructions on this helpful webpage: https://quarto.org/docs/websites/website-blog.html up until the themes section.</p>
+<p>Add a .gitignore file in the main folder and add at least this:</p>
+<pre><code>_site
+.quarto</code></pre>
+<p>This will prevent the rendered output on your machine while previewing to be mixed with the source code on GitHub.</p>
+</section>
+<section id="link-with-github" class="level1">
+<h1>Link with GitHub</h1>
+<p>To make get this on GitHub I created a git repository in the project folder by opening the terminal tab in Positron and typing these three commands.</p>
+<pre><code>git init
+git add -A
+git commit -m "first commit"
+git branch -M main</code></pre>
+<p>This creates a new repository, adds all files to it and bundles them all in a first commit to the main branch. Be careful with <code>git add -A</code> as it may unintentionally add files you don’t want to your repository. Because git is a versioning system, a file once put in the repo will always remain in the history. So take special care with passwords or other secret information!</p>
+<p>Then in GitHub I created a new repository over there as well. CHoose an appropriate name, keep it public and don’t add any of the default files that it offers (no README, license or .gitignore, we can add those later), and there you go. Use these lines to connect your existing git repository on your device to the one you created on GitHub. Of course you’ll have to replace the two placeholders with your own GitHub account name and repository name.</p>
+<pre><code>git remote add origin https://github.com/my_account_name/my_repository_name.git
+git push -u origin main</code></pre>
+</section>
+<section id="publish-with-github-actions" class="level1">
+<h1>Publish with GitHub Actions</h1>
+<p>Next up is setting up GitHub Actions so we can automatically publish whenever we push a commit with a new version to the main branch. GitHub Actions is a powerful tool to automate workflows around your repository. You can check https://github.com/features/actions for more information.</p>
+<p>To get Actions working, you simply have to add a workflow to your repo. You can do so by creating a folder named <code>.github</code> to your main project folder and then create a <code>workflows</code> folder inside that new <code>.github</code> folder. Inside the <code>workflows</code> folder, create a file called <code>render.yml</code> which will contain the instructions for GitHub Actions to execute:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>render.yml</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="render.yml" style="background: #f1f3f5;"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> render.yaml</span></span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    # This means this Action will trigger whenever you push a commit to the main branch</span></span>
+<span id="cb4-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">branches</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> main</span></span>
+<span id="cb4-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">permissions</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">contents</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> write</span></span>
+<span id="cb4-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">jobs</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">render</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runs-on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ubuntu-latest</span></span>
+<span id="cb4-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">steps</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">      # Checkout this repo</span></span>
+<span id="cb4-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">uses</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> actions/checkout@v4</span></span>
+<span id="cb4-14"></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">      # Install quarto</span></span>
+<span id="cb4-16"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">uses</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> quarto-dev/quarto-actions/setup@v2</span></span>
+<span id="cb4-17"></span>
+<span id="cb4-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">      # Render the quarto website</span></span>
+<span id="cb4-19"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Render</span></span>
+<span id="cb4-20"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">run</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> quarto render .</span></span>
+<span id="cb4-21"></span>
+<span id="cb4-22"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">      # Publish the output of render in _site/ to GitHub pages</span></span>
+<span id="cb4-23"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Publish to GitHub pages 🚀</span></span>
+<span id="cb4-24"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">uses</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> JamesIves/github-pages-deploy-action@v4.5.0</span></span>
+<span id="cb4-25"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">with</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-26"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">          </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">folder</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> _site</span></span></code></pre></div></div>
+</div>
+<p>This will render your Quarto code into html and store that output in the gh-pages branch of your project.</p>
+</section>
+<section id="setup-github-pages" class="level1">
+<h1>Setup GitHub Pages</h1>
+<p>Now that we have a gh-pages branch, we can setup GitHub Pages to use that branch to publish our website. Go to the Settings of your GitHub repository and then in the left menu go to Pages. Choose ‘Deploy from a branch’ and pick the ‘gh-pages’ branch in the dropdown below that. You might also see the option for a custom domain. Don’t worry, we’ll revisit this page to set that up later!</p>
+</section>
+<section id="does-it-work" class="level1">
+<h1>Does it work?</h1>
+<p>Don’t forget to stage all your changes, commit them to your repository and push them to GitHub. If you go to Actions in the top menu of your repository on GitHub you’ll see a workflow running. You might also see a second one, called pages-build-deployment which is a standard GitHub workflow to publish whatever is in your gh-pages branch to your repository website. This website can be found at https://my_account_name.github.io/my_repository_name.</p>
+<p>So the setup has two steps:</p>
+<ol type="1">
+<li>Render your Quarto files into html files and storing them in the gh-pages branch</li>
+<li>Publishing whatever is in the gh-pages branch to your repository’s website</li>
+</ol>
+<p>The first is our own GitHub Action, the second is a standard one that is enabled by enabling GitHub Pages in the settings.</p>
+<p>If you go to the url of your webpage, you should see something already!</p>
+<!--# To freeze or not to freeze?
+It turns out that in `posts/_metadata.yml` there is a setting called `freeze` which is set to `true`. This helps preventing rerenders of content that has not changed. This has all sorts of benefits, especially when you have R or Python code in your webpage that needs to compute: speed of rendering goes up and old code won't break when environments change or things are updated. It simply uses the results from last render.-->
 
 
+</section>
 
  ]]></description>
   <category>news</category>
   <category>code</category>
-  <category>analysis</category>
+  <category>quarto</category>
   <guid>https://kimschouten.com/posts/post-with-code/</guid>
   <pubDate>Thu, 25 Sep 2025 00:00:00 GMT</pubDate>
   <media:content url="https://kimschouten.com/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
-  <title>Welcome To My Blog</title>
-  <dc:creator>Tristan O&#39;Malley</dc:creator>
+  <title>Welcome To My Next First Step: This Blog</title>
+  <dc:creator>Kim Schouten</dc:creator>
   <link>https://kimschouten.com/posts/welcome/</link>
   <description><![CDATA[ 
 
@@ -43,16 +303,24 @@
 
 
 
-<p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="https://kimschouten.com/posts/welcome/thumbnail.jpg" class="img-fluid"></p>
-<p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
+<p>This is the first post on my new website / blog. Welcome!</p>
+<p>I am experimenting with using Quarto as a system to run this website. Years ago I also had a personal website which used wordpress but I wasn’t too happy with it. It felt pretty complex and a bit bloated maybe? Because I love to code, I am taking a next step and start using Quarto to have once again a personal website.</p>
+<p>That is also the theme that drives this attempt: the most important step is always the next one. Sometimes that means taking the first step, as with this website, sometimes it means getting back up again after a personal failure, and sometimes it means just powering through even if it gets tough or simply boring if that is what it takes.</p>
+<p>I just finished Rythm of War by Brandon Sanderson so the Knights Radiants and their ideals are still fresh in my mind. I think they apply here as well.</p>
+<blockquote class="blockquote">
+<p>Life before death. Strength before weakness. Journey before destination</p>
+</blockquote>
+<p>Life is both beautiful and painful. Still it is an amazing gift to be alive, to feel. Choosing life over death seems obvious, especially when things go well, but choosing to live and to live well can be hard when life comes at you hard in the moment. Focusing on your weakness can be a self-fulfilling prophesy, so choose to be strong and you likely will be. I see it as a form of courage, where in the face of your own struggles and weaknesses you are still brave enough to choose the right thing and thus your are strong. The last one is very reminiscent of the growth mindset for me which has been a personal goal for the last couple of years. Arriving (or not) at your destination is boolean, true or false, while the journey is a monotonically increasing number. Even worse, looking at destination you have basically failed up until the last step and you arrive at your destination. In contrast, focusing on the journey allows you to see every step as part of that lifelong journey. And even steps that, in hindsight, were maybe in the wrong direction have actually helped you learn and grow as a person so that now you do know which way to go. Just keep walking, every step counts.</p>
+<p>That is why starting this blog for me is a next step. Publishing my thoughts and experiments will probably give me some anxiety. What if people think… I am not capable enough, or not knowledgeable enough, or a bad communicator, or… But: strength before weakness and journey before destination. So yes, some things you will read here will be obvious (or wrong!) to you because your journey has already led you beyond that point. It may still be useful for others though and it is useful for me. Feel free to add your wisdom and knowledge in the comments so others can benefit from them.</p>
+<p>That is maybe the most important thing of a journey: you’re not traveling alone!</p>
 
 
 
  ]]></description>
   <category>news</category>
   <guid>https://kimschouten.com/posts/welcome/</guid>
-  <pubDate>Mon, 22 Sep 2025 00:00:00 GMT</pubDate>
+  <pubDate>Thu, 25 Sep 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://kimschouten.com/posts/welcome/thunbnail.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Harlow Malloc">
+<meta name="author" content="Kim Schouten">
 <meta name="dcterms.date" content="2025-09-25">
 
-<title>Post With Code – The most important step</title>
+<title>Starting A Quarto Blog – The most important step</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -114,11 +149,11 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Post With Code</h1>
+      <h1 class="title">Starting A Quarto Blog</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">news</div>
                 <div class="quarto-category">code</div>
-                <div class="quarto-category">analysis</div>
+                <div class="quarto-category">quarto</div>
               </div>
                   </div>
   </div>
@@ -129,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Harlow Malloc </p>
+               <p>Kim Schouten </p>
             </div>
     </div>
       
@@ -155,9 +190,99 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>This is a post with executable code.</p>
+<p>Over the last few days I got the notion in my head that I wanted to (again) have a personal website and since my visit to <a href="https:://www.posit.co/conference">posit::conf(2025)</a>, where I saw a lot of nifty Quarto stuff, I’d like to create the whole thing in Quarto.</p>
+<p>Given the fact that you read this, I have been succesful. That is great, because it means at the end of this post you should have all the ingredients to get something like this running yourself.</p>
+<section id="what-do-i-want" class="level1">
+<h1>What do I want?</h1>
+<p>I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post as well as a custom domain so it’s not just on github.io which will look a bit more professional.</p>
+</section>
+<section id="what-do-i-need" class="level1">
+<h1>What do I need?</h1>
+<p>I will need a <a href="https://www.github.com">GitHub</a> account, which you’ll probably have. If you don’t know Git or GitHub, you will need to get acquainted with that before continuing further. A couple of resources to help you on your way would be:</p>
+<ul>
+<li><a href="https://guides.github.com/introduction/git-handbook/">Git Handbook – GitHub Guides</a></li>
+<li><a href="https://try.github.io/">Try Git – Interactive Tutorial</a></li>
+<li><a href="https://git-scm.com/book/en/v2/Getting-Started-Git-Basics">Git Basics – Official Docs</a></li>
+</ul>
+<p>If you want to link to a custom domain instead of the default github.io one, you need to buy a domain name. There are many vendors out there. Prices can vary a bit by Top Level Domain (i.e., .com, .net, .etc) but are mostly quite reasonable. Note that you pay this amount per year, so it will be a recurring cost. I’d advise to first get things up and ready before you start spending money on cool domain names.</p>
+<p>Last, you need an IDE to program in. I am using <a href="https://positron.posit.co/">Positron</a> for this project, but there are other options as well, such as VSCode, RStudio or even just a terminal and text editor.</p>
+</section>
+<section id="starting-the-project" class="level1">
+<h1>Starting the project</h1>
+<p>I generally followed the instructions on this helpful webpage: https://quarto.org/docs/websites/website-blog.html up until the themes section.</p>
+<p>Add a .gitignore file in the main folder and add at least this:</p>
+<pre><code>_site
+.quarto</code></pre>
+<p>This will prevent the rendered output on your machine while previewing to be mixed with the source code on GitHub.</p>
+</section>
+<section id="link-with-github" class="level1">
+<h1>Link with GitHub</h1>
+<p>To make get this on GitHub I created a git repository in the project folder by opening the terminal tab in Positron and typing these three commands.</p>
+<pre><code>git init
+git add -A
+git commit -m "first commit"
+git branch -M main</code></pre>
+<p>This creates a new repository, adds all files to it and bundles them all in a first commit to the main branch. Be careful with <code>git add -A</code> as it may unintentionally add files you don’t want to your repository. Because git is a versioning system, a file once put in the repo will always remain in the history. So take special care with passwords or other secret information!</p>
+<p>Then in GitHub I created a new repository over there as well. CHoose an appropriate name, keep it public and don’t add any of the default files that it offers (no README, license or .gitignore, we can add those later), and there you go. Use these lines to connect your existing git repository on your device to the one you created on GitHub. Of course you’ll have to replace the two placeholders with your own GitHub account name and repository name.</p>
+<pre><code>git remote add origin https://github.com/my_account_name/my_repository_name.git
+git push -u origin main</code></pre>
+</section>
+<section id="publish-with-github-actions" class="level1">
+<h1>Publish with GitHub Actions</h1>
+<p>Next up is setting up GitHub Actions so we can automatically publish whenever we push a commit with a new version to the main branch. GitHub Actions is a powerful tool to automate workflows around your repository. You can check https://github.com/features/actions for more information.</p>
+<p>To get Actions working, you simply have to add a workflow to your repo. You can do so by creating a folder named <code>.github</code> to your main project folder and then create a <code>workflows</code> folder inside that new <code>.github</code> folder. Inside the <code>workflows</code> folder, create a file called <code>render.yml</code> which will contain the instructions for GitHub Actions to execute:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>render.yml</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="render.yml"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> render.yaml</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">    # This means this Action will trigger whenever you push a commit to the main branch</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> main</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">permissions</span><span class="kw">:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">contents</span><span class="kw">:</span><span class="at"> write</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">render</span><span class="kw">:</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">      # Checkout this repo</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">      # Install quarto</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> quarto-dev/quarto-actions/setup@v2</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">      # Render the quarto website</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Render</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> quarto render .</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">      # Publish the output of render in _site/ to GitHub pages</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Publish to GitHub pages 🚀</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> JamesIves/github-pages-deploy-action@v4.5.0</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">folder</span><span class="kw">:</span><span class="at"> _site</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This will render your Quarto code into html and store that output in the gh-pages branch of your project.</p>
+</section>
+<section id="setup-github-pages" class="level1">
+<h1>Setup GitHub Pages</h1>
+<p>Now that we have a gh-pages branch, we can setup GitHub Pages to use that branch to publish our website. Go to the Settings of your GitHub repository and then in the left menu go to Pages. Choose ‘Deploy from a branch’ and pick the ‘gh-pages’ branch in the dropdown below that. You might also see the option for a custom domain. Don’t worry, we’ll revisit this page to set that up later!</p>
+</section>
+<section id="does-it-work" class="level1">
+<h1>Does it work?</h1>
+<p>Don’t forget to stage all your changes, commit them to your repository and push them to GitHub. If you go to Actions in the top menu of your repository on GitHub you’ll see a workflow running. You might also see a second one, called pages-build-deployment which is a standard GitHub workflow to publish whatever is in your gh-pages branch to your repository website. This website can be found at https://my_account_name.github.io/my_repository_name.</p>
+<p>So the setup has two steps:</p>
+<ol type="1">
+<li>Render your Quarto files into html files and storing them in the gh-pages branch</li>
+<li>Publishing whatever is in the gh-pages branch to your repository’s website</li>
+</ol>
+<p>The first is our own GitHub Action, the second is a standard one that is enabled by enabling GitHub Pages in the settings.</p>
+<p>If you go to the url of your webpage, you should see something already!</p>
+<!--# To freeze or not to freeze?
+It turns out that in `posts/_metadata.yml` there is a setting called `freeze` which is set to `true`. This helps preventing rerenders of content that has not changed. This has all sorts of benefits, especially when you have R or Python code in your webpage that needs to compute: speed of rendering goes up and old code won't break when environments change or things are updated. It simply uses the results from last render.-->
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
