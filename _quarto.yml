@@ -1,0 +1,24 @@
+project:
+  type: website
+
+website:
+  description: "Recording my next steps"
+  site-url: https://kimschouten.com # you must change this appropriately for RSS feeds to work properly
+  title: "The most important step"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/KSchouten
+format:
+  html:
+    theme:
+      - superhero
+      - brand
+    css: styles.css
+
+comments:
+  giscus:
+    repo: KSchouten/the-most-important-step
+
+
