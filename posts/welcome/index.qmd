@@ -3,7 +3,7 @@ title: "Welcome To My Next First Step: This Blog"
 author: "Kim Schouten"
 date: "2025-09-25"
 categories: [news]
-image: "thunbnail.jpg"
+image: "thumbnail.jpg"
 ---
 
 This is the first post on my new website / blog. Welcome! 

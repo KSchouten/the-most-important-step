@@ -11,7 +11,7 @@ Over the last few days I got the notion in my head that I wanted to (again) have
 Given the fact that you read this, I have been succesful. That is great, because it means at the end of this post you should have all the ingredients to get something like this running yourself.
 
 # What do I want? 
-I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post as well as a custom domain so it's not just on github.io which will look a bit more professional.
+I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post so users can leave questions and benefit from other people's remarks.
 
 # What do I need?
 I will need a [GitHub](https://www.github.com) account, which you'll probably have. If you don't know Git or GitHub, you will need to get acquainted with that before continuing further. A couple of resources to help you on your way would be:
@@ -84,7 +84,7 @@ jobs:
           folder: _site
 ```
 
-This will render your Quarto code into html and store that output in the gh-pages branch of your project.
+This will render your Quarto code into html and store that output in the gh-pages branch of your project. Note that if you want to include R or Python code on your page to compute certain graphs for instance, you need additional steps in the yaml to install R and/or Python and required packages and modules. Because this will substantially slow down the GitHub Action and I don't currently use it, I have decided to leave it out for the moment.
 
 # Setup GitHub Pages
 Now that we have a gh-pages branch, we can setup GitHub Pages to use that branch to publish our website. Go to the Settings of your GitHub repository and then in the left menu go to Pages. Choose 'Deploy from a branch' and pick the 'gh-pages' branch in the dropdown below that. You might also see the option for a custom domain. Don't worry, we'll revisit this page to set that up later!
@@ -101,11 +101,39 @@ The first is our own GitHub Action, the second is a standard one that is enabled
 
 If you go to the url of your webpage, you should see something already! 
 
-<!--# To freeze or not to freeze?
-It turns out that in `posts/_metadata.yml` there is a setting called `freeze` which is set to `true`. This helps preventing rerenders of content that has not changed. This has all sorts of benefits, especially when you have R or Python code in your webpage that needs to compute: speed of rendering goes up and old code won't break when environments change or things are updated. It simply uses the results from last render.-->
+# Comments
 
+Because I would like to be able to have people ask questions or provide useful feedback for other readers to benefit from, I want to have a comment section below my blog posts.
 
+Because Quarto is basically only a client-side application without any database behind it, this can be rather tricky. Fortunately, there are various plugins that can workaround this limitation. One of these is Giscus. This application for GitHub stores all comments as GitHub Discussions in a GitHub repository. If we choose our website repository, we have everything nice and tidy together.
 
+To get started, install the Giscus app for GitHub here: https://github.com/apps/giscus. Be sure to install it for only the repository that contains your website.
+Next, enable the Discussions feature on your website repository by going to Settings and under General options, scroll down to the Features section. There you can enable Discussions. From what I understand, at the time of writing, the Discussions feature is still under active development so things might change. Enabling this feature should give you a Discussions menu item up top.
+
+I'd advise you to go there and update the default welcome message. 
+
+Then, you can enable the giscus extension in Quarto by adding the following lines to your `_quarto.yml` file in the main folder.
+```{.yml filename=_quarto.yml}
+comments:
+  giscus:
+    repo: your_account_name/your_repository_name
+```
+
+This will enable comments on every page. However, comments on the main and about page are probably not what you want, so for those two pages you can disable the comments by adding 
+```{.yml}
+comments: false
+```
+to the frontline matter of `index.qmd` and `about.qmd`. Of course, if you have specific blog posts in the future where you don't want comments you can do the same there.
+
+Be sure to test the results! You can add a comment to one of the demo posts. In the GitHub repo, under Discussions, you can moderate the comments and remove entire discussion if you want. Note that users must have a GitHub account to add a comment. While you might miss out on a few comments of people without such an account, it probably also prevents quite a bit of spam here. Users can also directly add comments to existing discussion on GitHub directly, not just via the comment plugin on your website.
+
+# Results!
+
+Ok, we're done for today! What have we achieved?
+
+We have a code-based blog website in the air, with free hosting and an actual publishing process that automatically runs whenever we push a new version of the website to GitHub. This is quite an achievement.
+
+What's left? Well, I would certainly like to add a custom domain name to this website. This would take a number of extra steps so it is a bit much for this article and deserves its own place. If you followed along, now is the time to start replacing all that demo text with content of your own. Take the next step and share some of your own ideas or thoughts with the world. Good luck!
 
 
 
