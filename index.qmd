@@ -1,5 +1,6 @@
 ---
 title: "Recording my next steps"
+comments: false
 listing:
   contents: posts
   feed: true
