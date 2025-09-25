@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Given the fact that you read this, I have been succesful. That is great, because it means at the end of this post you should have all the ingredients to get something like this running yourself.</p>
 <section id="what-do-i-want" class="level1">
 <h1>What do I want?</h1>
-<p>I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post as well as a custom domain so it’s not just on github.io which will look a bit more professional.</p>
+<p>I want to host the code on GitHub and publish on GitHub Pages. This means I get to have free hosting plus, with GitHub Actions I can automatically republish whenever I update my code. Furthermore, I would like to have the option for comments under each post so users can leave questions and benefit from other people’s remarks.</p>
 </section>
 <section id="what-do-i-need" class="level1">
 <h1>What do I need?</h1>
@@ -262,7 +262,7 @@ git push -u origin main</code></pre>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">folder</span><span class="kw">:</span><span class="at"> _site</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This will render your Quarto code into html and store that output in the gh-pages branch of your project.</p>
+<p>This will render your Quarto code into html and store that output in the gh-pages branch of your project. Note that if you want to include R or Python code on your page to compute certain graphs for instance, you need additional steps in the yaml to install R and/or Python and required packages and modules. Because this will substantially slow down the GitHub Action and I don’t currently use it, I have decided to leave it out for the moment.</p>
 </section>
 <section id="setup-github-pages" class="level1">
 <h1>Setup GitHub Pages</h1>
@@ -278,8 +278,32 @@ git push -u origin main</code></pre>
 </ol>
 <p>The first is our own GitHub Action, the second is a standard one that is enabled by enabling GitHub Pages in the settings.</p>
 <p>If you go to the url of your webpage, you should see something already!</p>
-<!--# To freeze or not to freeze?
-It turns out that in `posts/_metadata.yml` there is a setting called `freeze` which is set to `true`. This helps preventing rerenders of content that has not changed. This has all sorts of benefits, especially when you have R or Python code in your webpage that needs to compute: speed of rendering goes up and old code won't break when environments change or things are updated. It simply uses the results from last render.-->
+</section>
+<section id="comments" class="level1">
+<h1>Comments</h1>
+<p>Because I would like to be able to have people ask questions or provide useful feedback for other readers to benefit from, I want to have a comment section below my blog posts.</p>
+<p>Because Quarto is basically only a client-side application without any database behind it, this can be rather tricky. Fortunately, there are various plugins that can workaround this limitation. One of these is Giscus. This application for GitHub stores all comments as GitHub Discussions in a GitHub repository. If we choose our website repository, we have everything nice and tidy together.</p>
+<p>To get started, install the Giscus app for GitHub here: https://github.com/apps/giscus. Be sure to install it for only the repository that contains your website. Next, enable the Discussions feature on your website repository by going to Settings and under General options, scroll down to the Features section. There you can enable Discussions. From what I understand, at the time of writing, the Discussions feature is still under active development so things might change. Enabling this feature should give you a Discussions menu item up top.</p>
+<p>I’d advise you to go there and update the default welcome message.</p>
+<p>Then, you can enable the giscus extension in Quarto by adding the following lines to your <code>_quarto.yml</code> file in the main folder.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>_quarto.yml</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="_quarto.yml"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comments</span><span class="kw">:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">giscus</span><span class="kw">:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">repo</span><span class="kw">:</span><span class="at"> your_account_name/your_repository_name</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This will enable comments on every page. However, comments on the main and about page are probably not what you want, so for those two pages you can disable the comments by adding</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">comments</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>to the frontline matter of <code>index.qmd</code> and <code>about.qmd</code>. Of course, if you have specific blog posts in the future where you don’t want comments you can do the same there.</p>
+<p>Be sure to test the results! You can add a comment to one of the demo posts. In the GitHub repo, under Discussions, you can moderate the comments and remove entire discussion if you want. Note that users must have a GitHub account to add a comment. While you might miss out on a few comments of people without such an account, it probably also prevents quite a bit of spam here. Users can also directly add comments to existing discussion on GitHub directly, not just via the comment plugin on your website.</p>
+</section>
+<section id="results" class="level1">
+<h1>Results!</h1>
+<p>Ok, we’re done for today! What have we achieved?</p>
+<p>We have a code-based blog website in the air, with free hosting and an actual publishing process that automatically runs whenever we push a new version of the website to GitHub. This is quite an achievement.</p>
+<p>What’s left? Well, I would certainly like to add a custom domain name to this website. This would take a number of extra steps so it is a bit much for this article and deserves its own place. If you followed along, now is the time to start replacing all that demo text with content of your own. Take the next step and share some of your own ideas or thoughts with the world. Good luck!</p>
 
 
 </section>
